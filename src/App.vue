@@ -43,6 +43,7 @@ const minusCounter = () => {
       <nav>
         <RouterLink v-if="auth.isloggedIn" to="/">Home</RouterLink>
         <RouterLink v-if="auth.isloggedIn" to="/about">About</RouterLink>
+        <RouterLink v-if="auth.isloggedIn" to="/transaction">Transaction</RouterLink>
         <RouterLink v-if="!auth.isloggedIn" to="/login">Login</RouterLink>
       </nav>
     </div>
@@ -53,7 +54,7 @@ const minusCounter = () => {
 
 <style scoped>
 p {
-  color: red;
+  color: green
 }
 
 header {
