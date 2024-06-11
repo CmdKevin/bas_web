@@ -1,38 +1,30 @@
 <script setup>
-import { reactive,inject } from 'vue';
-import { VNumberInput } from 'vuetify/labs/VNumberInput'
-const data = reactive({
-    AccountID: "",
-    BankID:"",
-    Amount:0,
-    TransactionDate:"",
-    pesanLogin: "",
-})
+import { ref, inject } from "vue";
 
+const myAxios = inject("myAxios");
 
+const formData = ref({
+  AccountID: "",
+  BankID: "",
+  Amount: "",
+  TransactionDate: "",
+});
 
-const myAxios = inject('myAxios')
+const handleSubmit = async () => {
+  try {
+    // Parse the Amount field to an integer
+    formData.value.Amount = parseInt(formData.value.Amount);
 
+    const response = await myAxios.post("/transaction/datatransaksi", formData.value);
+    console.log("Response:", response.data);
+  } catch (error) {
+    console.error(
+      "Error:",
+      error.response ? error.response.data : error.message
+    );
+  }
+};
 
-
-const submit = () => {
-    console.log("Submit",data);
-    myAxios.post("/transaction/datatransaksi",{
-      AccountID:data.AccountID,
-      BankID:data.BankID,
-      Amount:data.Amount,
-      TransactionDate:data.TransactionDate,
-    }).then((res) => {
-      if(res.status==200){
-        data.pesanLogin="Transaksi Berhasil"
-      }
-      data.snackbar= true
-    }, (err) => {
-      data.pesanLogin = "Transaksi Gagal"
-      data.snackbar = true
-    })
-     
-}
 </script>
 
 <template>
@@ -40,28 +32,25 @@ const submit = () => {
     <div class="container">
         <div>
             <label>AccountID</label>
-            <v-text-field type="text" v-model="data.AccountID"/>
+            <v-text-field type="text" v-model="formData.AccountID"/>
         </div>
         <div>
             <label>BankID</label>
-            <v-text-field type="text" v-model="data.BankID"/>
+            <v-text-field type="text" v-model="formData.BankID"/>
         </div>
      
         <div>
             <label>Amount</label>
-            <v-number-input v-model="data.Amount"/>
+            <v-text-field v-model="formData.Amount"/>
         </div>
 
         <div>
             <label>TransactionDate</label>
-            <v-text-field id="transaction_date" model-value="2024-05-03T00:00:00+07" v-model="data.transaction_date" />
+            <v-text-field id="TransactionDate" v-model="formData.TransactionDate" />
         </div>
-        <v-btn variant="tonal" @click="submit">
-  Button
-</v-btn>
+        <v-btn variant="tonal" @click="handleSubmit">
+            Button
+        </v-btn>
     </div>
 </v-card>
-  </template>
-  <script>
-    
-  </script>
+</template>
