@@ -5,7 +5,7 @@ const data = reactive({
     AccountID: "",
     BankID:"",
     Amount:0,
-    //TransactionDate:"",
+    TransactionDate:"",
     pesanLogin: "",
 })
 
@@ -21,7 +21,7 @@ const submit = () => {
       AccountID:data.AccountID,
       BankID:data.BankID,
       Amount:data.Amount,
-      //TransactionDate:data.TransactionDate,
+      TransactionDate:data.TransactionDate,
     }).then((res) => {
       if(res.status==200){
         data.pesanLogin="Transaksi Berhasil"
@@ -52,10 +52,10 @@ const submit = () => {
             <v-number-input v-model="data.Amount"/>
         </div>
 
-        <!-- <div>
+        <div>
             <label>TransactionDate</label>
-            <v-number-input v-model="data.TransactionDate"/>
-        </div> -->
+            <v-text-field id="transaction_date" model-value="2024-05-03T00:00:00+07" v-model="data.transaction_date" />
+        </div>
         <v-btn variant="tonal" @click="submit">
   Button
 </v-btn>
